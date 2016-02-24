@@ -3,30 +3,11 @@ app:
   container_name: app
   ports:
     - "80:80"
-    - "443:443"
-    - "3000:3000"
   environment:
       LOCAL_DEV: "false" # true or false. Domain is l.com and la.com
   working_dir: "/app"
   volumes:
-    # - "./data:/app"
-    - "./nginx.conf:/etc/nginx/nginx.conf"
-    - "./start.sh:/start.sh"
-  # command: "/bin/bash /start.sh"
-  command: "/bin/bash"
+    - "/app"
+    - "/usr/local/bundle"
+  command: "/bin/bash /start.sh"
   tty: true
-  links:
-      - db:db
-
-
-db:
-  image: mariadb
-  container_name: db
-  command: mysqld
-  ports:
-    - "3306"
-  volumes:
-    - "/var/lib/mysql"
-  environment:
-    MYSQL_ROOT_PASSWORD: "rails"
-    MYSQL_DATABASE: "rails"

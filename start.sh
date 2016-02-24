@@ -1,11 +1,10 @@
 
-
-if [ ! -e /app/sample ]; then
+if [ ! -d "/app/sample/config" ]; then
+rm -f /app/sample
 echo "rails install "
-cd /app && rails new sample
+rails new --skip-bundle sample
 cd /app/sample && bundle install --path vendor/bundle
 fi
-ls -la
-cd /app/sample && ls -la &&  unicorn_rails -p 80
 
+cd /app/sample && unicorn_rails -p 80
 

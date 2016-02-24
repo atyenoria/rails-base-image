@@ -11,7 +11,6 @@ ENV RAILS_VERSION 4.2.5.1
 RUN gem install rails --version "$RAILS_VERSION"
 
 
-
 #nginx
 ENV NGINX_VERSION 1.9.11-1~jessie
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
@@ -88,21 +87,14 @@ WORKDIR /app
 # Add default unicorn config
 
 # Add default foreman config
-ADD Procfile /app/Procfile
-ADD unicorn.rb /app/unicorn.rb
+
 
 ADD zshrc /root/.zshrc
-
-ENV RAILS_ENV production
 
 
 ADD nginx.conf /etc/nginx/nginx.conf
 
 
-
-
-
 ADD start.sh /start.sh
-ADD .bundle_config /usr/local/bundle/config
 
 RUN mkdir -p /app
