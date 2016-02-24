@@ -4,3 +4,5 @@ s:
 	docker run -it atyenoria/rails-base zsh
 b:
 	docker build -t atyenoria/rails-base .
+u:
+	dkcob

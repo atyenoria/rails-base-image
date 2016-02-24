@@ -12,8 +12,6 @@ RUN gem install rails --version "$RAILS_VERSION"
 
 
 
-
-
 #nginx
 ENV NGINX_VERSION 1.9.11-1~jessie
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
@@ -32,9 +30,7 @@ ENV ZSH_DEP_PACKAGE  "software-properties-common build-essential"
 RUN apt-get update && apt-get install -y $ZSH_DEP_PACKAGE
 RUN apt-get install -y zsh git
 RUN git clone git://github.com/robbyrussell/oh-my-zsh.git /root/.oh-my-zsh \
-    && cp -R /root/.oh-my-zsh /laravel \
-    && chsh -s /bin/zsh \
-    && chsh -s /bin/zsh laravel
+    && chsh -s /bin/zsh
 
 #vim plugin
 RUN apt-get install -y vim
@@ -84,19 +80,29 @@ RUN apt-get remove --purge -y software-properties-common && \
 RUN ln -sf /usr/share/zoneinfo/Japan /etc/localtime
 
 
-RUN gem install foreman
+RUN gem install foreman unicorn
 
 # Rails App directory
 WORKDIR /app
 
 # Add default unicorn config
-ADD unicorn.rb /app/config/unicorn.rb
 
 # Add default foreman config
 ADD Procfile /app/Procfile
+ADD unicorn.rb /app/unicorn.rb
+
+ADD zshrc /root/.zshrc
 
 ENV RAILS_ENV production
 
 
-CMD bundle exec rake assets:precompile && foreman start -f Procfile
+ADD nginx.conf /etc/nginx/nginx.conf
 
+
+
+
+
+ADD start.sh /start.sh
+ADD .bundle_config /usr/local/bundle/config
+
+RUN mkdir -p /app

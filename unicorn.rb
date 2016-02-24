@@ -1,4 +1,4 @@
-app_dir = "/app"
+app_dir = "/app/sample"
 
 working_directory app_dir
 
